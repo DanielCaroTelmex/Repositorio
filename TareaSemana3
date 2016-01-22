@@ -31,7 +31,7 @@ cacheSolve <- function(x, ...) {
 
 X <- matrix(rpois(25,3), nrow = 5)
 cX <- makeCacheMatrix(X)
-cX$get()
+cX$get() 
 cacheSolve(cX)
 cacheSolve(cX)
 invX <- cacheSolve(cX)
