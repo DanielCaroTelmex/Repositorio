@@ -1,53 +1,31 @@
 ## FUNCION CACHÉ MATRIX
 
+## Inicializo la funcion
 makeCacheMatrix <- function(x = matrix()) {
-	matriz <- NULL
-        set <- function(y) {
-                x <<- y
-                matriz <<- NULL
+	matriz <- NULL ## creo y seteo la variable matriz
+        set <- function(y) { ## creo y seteo la variable set
+                x <<- y ## almacenamiento de x en memoria
+                matriz <<- NULL ## almaceno la variable en memoria
         }
-        get <- function() x
-        setinv <- function(inv) matriz <<- inv
+        get <- function() x   ## en Get almaceno la funcion() x
+        setinv <- function(inv) matriz <<- inv ## Rutina para la inversión de matriz
         getinv <- function() matriz
         list(set = set, get = get,
              setinv = setinv,
              getinv = getinv)
 }
 
-## Regresa los datos de la memoria caché, usa la inversa. Cargando...
-
+## Regresa los datos de la memoria caché, usa la inversa.
+## Creo la función
 cacheSolve <- function(x, ...) {        
-	matriz <- x$getinv()
-        if(!is.null(matriz)) {
-                message("Obteniendo los datos de la memoria caché...")
-                return(matriz)
+	matriz <- x$getinv() ## obteniendo los datos en la variable matriz
+        if(!is.null(matriz)) { ## pregunto si no es null la variable matriz
+                message("Obteniendo los datos de la memoria caché...") ## Mensaje en pantalla donde se obtiene la información
+                return(matriz) ## regresa la matriz
         }
-        data <- x$get()
+        ## Rutina para presentar los resultados.
+        data <- x$get() 
         matriz <- solve(data, ...)
         x$setinv(matriz)
         matriz
 }
-
-
-X <- matrix(rpois(25,3), nrow = 5)
-cX <- makeCacheMatrix(X)
-cX$get() 
-cacheSolve(cX)
-cacheSolve(cX)
-invX <- cacheSolve(cX)
-
-
-Y <- matrix(rpois(20,2), nrow = 5, ncol = 4)
-cY <- makeCacheMatrix(Y)
-cY$get()
-cacheSolve(cY)
-cacheSolve(cY)
-invY <- cacheSolve(cY)
-
-
-Z <- matrix(rpois(20,1), nrow = 4, ncol = 5)
-cZ <- makeCacheMatrix(Z)
-cZ$get()
-cacheSolve(cZ)
-cacheSolve(cZ)
-invZ <- cacheSolve(cZ)
